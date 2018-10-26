@@ -1,0 +1,7 @@
+{
+    "AppSyncApiName": "emtnick",
+    "schemaGraphql": "s3://epicmealtime-20181026205439-deployment/amplify-appsync-files/schema.graphql.1540581830975",
+    "ResolverBucket": "epicmealtime-20181026205439-deployment",
+    "ResolverRootKey": "amplify-appsync-files",
+    "DeploymentTimestamp": "1540581830975"
+}

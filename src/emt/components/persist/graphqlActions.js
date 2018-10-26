@@ -1,3 +1,5 @@
+
+
 const GetRandomEntity = `query {
   listEntitys(limit:1) {
     items {
@@ -24,9 +26,27 @@ const GetAllEntities = `query {
   }
 }`;
 
+const GetEntityById = `
+query($id: ID!){
+   getEntity(id: $id) {
+    id
+    description
+  }
+}`;
+
+const CreateEntity =
+  `mutation createEntity($description: String!) {
+   createEntity(input: {description: $description}) {
+    id
+    description
+  }
+}`;
+
 
 export {
-  GetRandomEntity,
   GetUserEntitiesByUserId,
-  GetAllEntities
+  GetAllEntities,
+  GetRandomEntity,
+  GetEntityById,
+  CreateEntity
 }
