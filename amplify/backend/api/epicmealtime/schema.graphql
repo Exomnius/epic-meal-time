@@ -1,0 +1,16 @@
+type Entity @model {
+	id: ID!
+	description: String!
+}
+
+type User @model {
+	id: ID!
+	name: String!
+}
+
+type UserEntity @model {
+	id: ID!
+	userId: User!
+	entityId: Entity!
+	result: Boolean!
+}

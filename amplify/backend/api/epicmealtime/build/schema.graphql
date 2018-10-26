@@ -1,0 +1,187 @@
+type Entity {
+  id: ID!
+  description: String!
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+type UserEntity {
+  id: ID!
+  userId: User!
+  entityId: Entity!
+  result: Boolean!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelEntityConnection {
+  items: [Entity]
+  nextToken: String
+}
+
+input ModelStringFilterInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelIDFilterInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+input ModelIntFilterInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  contains: Int
+  notContains: Int
+  between: [Int]
+}
+
+input ModelFloatFilterInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  contains: Float
+  notContains: Float
+  between: [Float]
+}
+
+input ModelBooleanFilterInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelEntityFilterInput {
+  id: ModelIDFilterInput
+  description: ModelStringFilterInput
+  and: [ModelEntityFilterInput]
+  or: [ModelEntityFilterInput]
+  not: ModelEntityFilterInput
+}
+
+type Query {
+  getEntity(id: ID!): Entity
+  listEntitys(filter: ModelEntityFilterInput, limit: Int, nextToken: String): ModelEntityConnection
+  getUser(id: ID!): User
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
+  getUserEntity(id: ID!): UserEntity
+  listUserEntitys(filter: ModelUserEntityFilterInput, limit: Int, nextToken: String): ModelUserEntityConnection
+}
+
+input CreateEntityInput {
+  description: String!
+}
+
+input UpdateEntityInput {
+  id: ID!
+  description: String
+}
+
+input DeleteEntityInput {
+  id: ID
+}
+
+type Mutation {
+  createEntity(input: CreateEntityInput!): Entity
+  updateEntity(input: UpdateEntityInput!): Entity
+  deleteEntity(input: DeleteEntityInput!): Entity
+  createUser(input: CreateUserInput!): User
+  updateUser(input: UpdateUserInput!): User
+  deleteUser(input: DeleteUserInput!): User
+  createUserEntity(input: CreateUserEntityInput!): UserEntity
+  updateUserEntity(input: UpdateUserEntityInput!): UserEntity
+  deleteUserEntity(input: DeleteUserEntityInput!): UserEntity
+}
+
+type Subscription {
+  onCreateEntity: Entity @aws_subscribe(mutations: ["createEntity"])
+  onUpdateEntity: Entity @aws_subscribe(mutations: ["updateEntity"])
+  onDeleteEntity: Entity @aws_subscribe(mutations: ["deleteEntity"])
+  onCreateUser: User @aws_subscribe(mutations: ["createUser"])
+  onUpdateUser: User @aws_subscribe(mutations: ["updateUser"])
+  onDeleteUser: User @aws_subscribe(mutations: ["deleteUser"])
+  onCreateUserEntity: UserEntity @aws_subscribe(mutations: ["createUserEntity"])
+  onUpdateUserEntity: UserEntity @aws_subscribe(mutations: ["updateUserEntity"])
+  onDeleteUserEntity: UserEntity @aws_subscribe(mutations: ["deleteUserEntity"])
+}
+
+type ModelUserConnection {
+  items: [User]
+  nextToken: String
+}
+
+input ModelUserFilterInput {
+  id: ModelIDFilterInput
+  name: ModelStringFilterInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+}
+
+input CreateUserInput {
+  name: String!
+}
+
+input UpdateUserInput {
+  id: ID!
+  name: String
+}
+
+input DeleteUserInput {
+  id: ID
+}
+
+type ModelUserEntityConnection {
+  items: [UserEntity]
+  nextToken: String
+}
+
+input ModelUserEntityFilterInput {
+  id: ModelIDFilterInput
+  result: ModelBooleanFilterInput
+  and: [ModelUserEntityFilterInput]
+  or: [ModelUserEntityFilterInput]
+  not: ModelUserEntityFilterInput
+}
+
+input CreateUserEntityInput {
+  result: Boolean!
+}
+
+input UpdateUserEntityInput {
+  id: ID!
+  result: Boolean
+}
+
+input DeleteUserEntityInput {
+  id: ID
+}
