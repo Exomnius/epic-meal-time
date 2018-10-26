@@ -12,7 +12,9 @@
  */
 
 import Swiper from './Swiper'
+import EntityCard from './EntityCard'
 
 export {
-  Swiper
+  Swiper,
+  EntityCard
 }

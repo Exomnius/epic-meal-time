@@ -18,7 +18,13 @@ import App from './App'
 import router from './router';
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
-import { components } from 'aws-amplify-vue'; 
+import { components } from 'aws-amplify-vue';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faCheck, faTimes)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 
@@ -29,7 +35,7 @@ new Vue({
   el: '#app',
   router: router,
   template: '<App/>',
-  components: { 
+  components: {
     App,
     ...components
   }

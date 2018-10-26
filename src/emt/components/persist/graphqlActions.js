@@ -8,7 +8,16 @@ const GetRandomEntity = `query {
   }
 }`;
 
+const CreateUserEntity = `mutation createUserEntity($entityId!, $userId!, $result: Boolean!) {
+  createUserEntity(input: {entityId: $entityId, userId: $userId, result: $result}) {
+    entityId
+    userId,
+    result
+  }
+}`;
+
 
 export {
-  GetRandomEntity
+  GetRandomEntity,
+  CreateUserEntity
 }

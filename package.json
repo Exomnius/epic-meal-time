@@ -13,11 +13,16 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.7",
+    "@fortawesome/free-solid-svg-icons": "^5.4.2",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
     "aws-amplify": "^1.1.4",
     "aws-amplify-vue": "^0.1.1",
     "aws-sdk": "^2.209.0",
     "e": "0.0.4",
     "fsts": "^0.0.39",
+    "i": "^0.3.6",
+    "npm": "^6.4.1",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
