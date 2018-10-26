@@ -15,7 +15,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import { Menu, Home, Profile } from '@/components';
 import { Notes } from '@/notes';
-import { Swiper } from '@/emt';
+import { Swiper, EntityManager } from '@/emt';
 import { components, AmplifyEventBus } from 'aws-amplify-vue';
 import Amplify, * as AmplifyModules from 'aws-amplify';
 import { AmplifyPlugin } from 'aws-amplify-vue';
@@ -90,6 +90,12 @@ const router = new Router({
       path: '/emt',
       name: 'Swiper',
       component: Swiper,
+      meta: { requiresAuth: true}
+    },
+    {
+      path: '/entity-manager',
+      name: 'EntityManager',
+      component: EntityManager,
       meta: { requiresAuth: true}
     },
     {

@@ -1,7 +1,9 @@
 {
     "AppSyncApiName": "epicmealtime",
-    "schemaGraphql": "s3://epicmealtime-20181026203108-deployment/amplify-appsync-files/schema.graphql.1540583767003",
+    "ElasticSearchStreamingLambdaCodeS3Key": "amplify-appsync-files/python_streaming_function.zip",
+    "ElasticSearchStreamingLambdaCodeS3Bucket": "epicmealtime-20181026203108-deployment",
+    "schemaGraphql": "s3://epicmealtime-20181026203108-deployment/amplify-appsync-files/schema.graphql.1540593233414",
     "ResolverBucket": "epicmealtime-20181026203108-deployment",
     "ResolverRootKey": "amplify-appsync-files",
-    "DeploymentTimestamp": "1540583767003"
+    "DeploymentTimestamp": "1540593233414"
 }

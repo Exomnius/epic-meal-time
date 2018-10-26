@@ -46,14 +46,8 @@ export const onDeleteUser = `subscription OnDeleteUser {
 export const onCreateUserEntity = `subscription OnCreateUserEntity {
   onCreateUserEntity {
     id
-    userId {
-      id
-      name
-    }
-    entityId {
-      id
-      description
-    }
+    userId
+    entityId
     result
   }
 }
@@ -61,14 +55,8 @@ export const onCreateUserEntity = `subscription OnCreateUserEntity {
 export const onUpdateUserEntity = `subscription OnUpdateUserEntity {
   onUpdateUserEntity {
     id
-    userId {
-      id
-      name
-    }
-    entityId {
-      id
-      description
-    }
+    userId
+    entityId
     result
   }
 }
@@ -76,14 +64,8 @@ export const onUpdateUserEntity = `subscription OnUpdateUserEntity {
 export const onDeleteUserEntity = `subscription OnDeleteUserEntity {
   onDeleteUserEntity {
     id
-    userId {
-      id
-      name
-    }
-    entityId {
-      id
-      description
-    }
+    userId
+    entityId
     result
   }
 }

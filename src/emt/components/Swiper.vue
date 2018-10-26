@@ -19,6 +19,14 @@
   import EmtTheme from '../EmtTheme';
   import {GetRandomEntity} from './persist/graphqlActions';
   import EntityCard from './EntityCard';
+  import Vue from 'vue'
+  import {Logger} from 'aws-amplify'
+  import {JS} from 'fsts'
+  import EmtTheme from "../EmtTheme";
+  import EntityCard from './EntityCard';
+  import AmplifyStore from '../../store/store'
+
+  import {GetRandomEntity, GetUserEntitiesByUserId, GetAllEntities} from './persist/graphqlActions';
 
   Vue.component('entity-card', EntityCard)
 
@@ -30,21 +38,47 @@
         entity: undefined,
         actions: {
           get: GetRandomEntity,
+          getAlreadyResponded: GetUserEntitiesByUserId,
+          getAllEntities: GetAllEntities,
           createResult: CreateEntityUserResult
-        }
-      };
-    },
-    computed: {
-      userId: function() { return AmplifyStore.state.userId }
+        },
+      }
     },
     created() {
-      this.getRandom();
+      this.getRandom("foo");
+    },
+    computed: {
+      userId: function () {
+        return AmplifyStore.state.userId
+      }
     },
     methods: {
-      getRandom() {
-        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.get, {}))
+      getRandom(userId) {
+        let responded, all;
+
+        const alreadyResponded = this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.getAlreadyResponded, {userId}))
           .then((res) => {
-            this.entities = res || undefined;
+            console.log("alreadyResponded", res);
+            responded = res.data.listUserEntitys.items.map(e => e.entityId);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+
+        const allEntities = this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.getAllEntities, {}))
+          .then((res) => {
+            console.log("all", res);
+            all = res.data.listEntitys.items;
+
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+
+        Promise.all([alreadyResponded, allEntities])
+          .then(() => {
+            const random = all.find((e) => !responded.includes(e.id))
+            console.log(random);
           });
       },
       accept() {

@@ -17,6 +17,7 @@
       <a class="item" v-on:click="home">Home</a>
       <a class="item" v-on:click="notes">Notes</a>
       <a class="item" v-on:click="emt">EMT</a>
+      <a class="item" v-on:click="entitymanager">Entity Manager</a>
     </div>
     <div class="right">
       <a class="item" v-on:click="profile" v-if="user">Profile</a>
@@ -49,6 +50,9 @@ export default {
     },
     emt: function() {
         this.$router.push('/emt')
+    },
+    entitymanager: function() {
+      this.$router.push('/entity-manager')
     },
     profile: function() {
         this.$router.push('/profile')
