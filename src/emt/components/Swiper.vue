@@ -35,7 +35,7 @@
     data() {
       return {
         theme: EmtTheme || {},
-        entity: undefined,
+        nextRandomEntity: {},
         actions: {
           get: GetRandomEntity,
           getAlreadyResponded: GetUserEntitiesByUserId,
@@ -78,6 +78,7 @@
         Promise.all([alreadyResponded, allEntities])
           .then(() => {
             const random = all.find((e) => !responded.includes(e.id))
+            this.nextRandomEntity = random;
             console.log(random);
           });
       },
