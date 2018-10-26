@@ -16,6 +16,7 @@
     <div class="main">
       <a class="item" v-on:click="home">Home</a>
       <a class="item" v-on:click="notes">Notes</a>
+      <a class="item" v-on:click="emt">EMT</a>
     </div>
     <div class="right">
       <a class="item" v-on:click="profile" v-if="user">Profile</a>
@@ -45,6 +46,9 @@ export default {
     },
     notes: function() {
         this.$router.push('/notes')
+    },
+    emt: function() {
+        this.$router.push('/emt')
     },
     profile: function() {
         this.$router.push('/profile')

@@ -30,9 +30,11 @@ const DeleteTodo = `mutation DeleteTodo($id: ID!) {
 }
 `
 
+
+
 export {
   CreateTodo,
   ListTodos,
   UpdateTodo,
-  DeleteTodo
+  DeleteTodo,
 }

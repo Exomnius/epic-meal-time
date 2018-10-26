@@ -42,7 +42,7 @@ import AmplifyStore from '../../store/store'
 
 import  { CreateTodo, ListTodos, UpdateTodo, DeleteTodo }  from './persist/graphqlActions';
 
-import NotesTheme from '../NotesTheme'
+import EmtTheme from '../NotesTheme'
 import Note from './Note'
 
 Vue.component('a-note', Note)

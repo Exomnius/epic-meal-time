@@ -31,7 +31,7 @@
         │   ├── ProfileForm.vue
         │   └── index.js
         ├── notes
-        │   ├── NotesTheme.js
+        │   ├── EmtThemes
         │   ├── components
         │   │   ├── Note.vue
         │   │   ├── Notes.vue
