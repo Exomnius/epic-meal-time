@@ -14,8 +14,8 @@
 <template>
   <div :style="theme.container">
     <h2 :style="theme.header">Swiper</h2>
-    <div v-for="entity in entities">
-      {{entity.description}}
+    <div>
+      {{nextRandomEntity.description}}
     </div>
 
 
@@ -38,7 +38,7 @@
     data() {
       return {
         theme: EmtTheme || {},
-        entities: '',
+        nextRandomEntity: {},
         actions: {
           get: GetRandomEntity,
           getAlreadyResponded: GetUserEntitiesByUserId,
@@ -80,6 +80,7 @@
         Promise.all([alreadyResponded, allEntities])
           .then(() => {
             const random = all.find((e) => !responded.includes(e.id))
+            this.nextRandomEntity = random;
             console.log(random);
           });
       }
