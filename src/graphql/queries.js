@@ -46,14 +46,8 @@ export const listUsers = `query ListUsers(
 export const getUserEntity = `query GetUserEntity($id: ID!) {
   getUserEntity(id: $id) {
     id
-    userId {
-      id
-      name
-    }
-    entityId {
-      id
-      description
-    }
+    userId
+    entityId
     result
   }
 }
@@ -66,14 +60,30 @@ export const listUserEntitys = `query ListUserEntitys(
   listUserEntitys(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      userId {
-        id
-        name
-      }
-      entityId {
-        id
-        description
-      }
+      userId
+      entityId
+      result
+    }
+    nextToken
+  }
+}
+`;
+export const searchUserEntitys = `query SearchUserEntitys(
+  $filter: SearchableUserEntityFilterInput
+  $sort: SearchableUserEntitySortInput
+  $limit: Int
+  $nextToken: Int
+) {
+  searchUserEntitys(
+    filter: $filter
+    sort: $sort
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userId
+      entityId
       result
     }
     nextToken

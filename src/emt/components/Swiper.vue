@@ -30,7 +30,7 @@
 
   import AmplifyStore from '../../store/store'
 
-  import {GetRandomEntity} from './persist/graphqlActions';
+  import {GetRandomEntity, GetUserEntitiesByUserId, GetAllEntities} from './persist/graphqlActions';
 
 
   export default {
@@ -40,12 +40,14 @@
         theme: EmtTheme || {},
         entities: '',
         actions: {
-          get: GetRandomEntity
+          get: GetRandomEntity,
+          getAlreadyResponded: GetUserEntitiesByUserId,
+          getAllEntities: GetAllEntities
         },
       }
     },
     created() {
-      this.getRandom();
+      this.getRandom("foo");
     },
     computed: {
       userId: function () {
@@ -53,13 +55,32 @@
       }
     },
     methods: {
-      getRandom() {
-        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.get, {}))
+      getRandom(userId) {
+        let responded, all;
+
+        const alreadyResponded = this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.getAlreadyResponded, {userId}))
           .then((res) => {
-            this.entities = res.data.listEntitys.items;
+            console.log("alreadyResponded", res);
+            responded = res.data.listUserEntitys.items.map(e => e.entityId);
           })
           .catch((e) => {
+            console.log(e);
+          });
 
+        const allEntities = this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.getAllEntities, {}))
+          .then((res) => {
+            console.log("all", res);
+            all = res.data.listEntitys.items;
+
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+
+        Promise.all([alreadyResponded, allEntities])
+          .then(() => {
+            const random = all.find((e) => !responded.includes(e.id))
+            console.log(random);
           });
       }
     }

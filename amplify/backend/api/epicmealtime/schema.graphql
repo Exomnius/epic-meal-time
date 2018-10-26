@@ -8,9 +8,9 @@ type User @model {
 	name: String!
 }
 
-type UserEntity @model {
+type UserEntity @model @searchable {
 	id: ID!
-	userId: User!
-	entityId: Entity!
+	userId: String!
+	entityId: String!
 	result: Boolean!
 }

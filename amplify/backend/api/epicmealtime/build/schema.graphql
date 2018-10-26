@@ -10,8 +10,8 @@ type User {
 
 type UserEntity {
   id: ID!
-  userId: User!
-  entityId: Entity!
+  userId: String!
+  entityId: String!
   result: Boolean!
 }
 
@@ -95,6 +95,7 @@ type Query {
   listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection
   getUserEntity(id: ID!): UserEntity
   listUserEntitys(filter: ModelUserEntityFilterInput, limit: Int, nextToken: String): ModelUserEntityConnection
+  searchUserEntitys(filter: SearchableUserEntityFilterInput, sort: SearchableUserEntitySortInput, limit: Int, nextToken: Int): SearchableUserEntityConnection
 }
 
 input CreateEntityInput {
@@ -167,6 +168,8 @@ type ModelUserEntityConnection {
 
 input ModelUserEntityFilterInput {
   id: ModelIDFilterInput
+  userId: ModelStringFilterInput
+  entityId: ModelStringFilterInput
   result: ModelBooleanFilterInput
   and: [ModelUserEntityFilterInput]
   or: [ModelUserEntityFilterInput]
@@ -174,14 +177,99 @@ input ModelUserEntityFilterInput {
 }
 
 input CreateUserEntityInput {
+  userId: String!
+  entityId: String!
   result: Boolean!
 }
 
 input UpdateUserEntityInput {
   id: ID!
+  userId: String
+  entityId: String
   result: Boolean
 }
 
 input DeleteUserEntityInput {
   id: ID
+}
+
+input SearchableStringFilterInput {
+  ne: String
+  eq: String
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+}
+
+input SearchableIDFilterInput {
+  ne: ID
+  eq: ID
+  match: ID
+  matchPhrase: ID
+  matchPhrasePrefix: ID
+  multiMatch: ID
+  exists: Boolean
+  wildcard: ID
+  regexp: ID
+}
+
+input SearchableIntFilterInput {
+  ne: Int
+  gt: Int
+  lt: Int
+  gte: Int
+  lte: Int
+  eq: Int
+  range: [Int]
+}
+
+input SearchableFloatFilterInput {
+  ne: Float
+  gt: Float
+  lt: Float
+  gte: Float
+  lte: Float
+  eq: Float
+  range: [Float]
+}
+
+input SearchableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input SearchableUserEntityFilterInput {
+  id: SearchableIDFilterInput
+  userId: SearchableStringFilterInput
+  entityId: SearchableStringFilterInput
+  result: SearchableBooleanFilterInput
+  and: [SearchableUserEntityFilterInput]
+  or: [SearchableUserEntityFilterInput]
+  not: SearchableUserEntityFilterInput
+}
+
+enum SearchableSortDirection {
+  asc
+  desc
+}
+
+enum SearchableUserEntitySortableFields {
+  id
+  userId
+  entityId
+  result
+}
+
+input SearchableUserEntitySortInput {
+  field: SearchableUserEntitySortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchableUserEntityConnection {
+  items: [UserEntity]
+  nextToken: String
 }

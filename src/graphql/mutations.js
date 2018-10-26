@@ -46,14 +46,8 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
 export const createUserEntity = `mutation CreateUserEntity($input: CreateUserEntityInput!) {
   createUserEntity(input: $input) {
     id
-    userId {
-      id
-      name
-    }
-    entityId {
-      id
-      description
-    }
+    userId
+    entityId
     result
   }
 }
@@ -61,14 +55,8 @@ export const createUserEntity = `mutation CreateUserEntity($input: CreateUserEnt
 export const updateUserEntity = `mutation UpdateUserEntity($input: UpdateUserEntityInput!) {
   updateUserEntity(input: $input) {
     id
-    userId {
-      id
-      name
-    }
-    entityId {
-      id
-      description
-    }
+    userId
+    entityId
     result
   }
 }
@@ -76,14 +64,8 @@ export const updateUserEntity = `mutation UpdateUserEntity($input: UpdateUserEnt
 export const deleteUserEntity = `mutation DeleteUserEntity($input: DeleteUserEntityInput!) {
   deleteUserEntity(input: $input) {
     id
-    userId {
-      id
-      name
-    }
-    entityId {
-      id
-      description
-    }
+    userId
+    entityId
     result
   }
 }
