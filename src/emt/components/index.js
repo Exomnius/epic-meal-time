@@ -12,7 +12,9 @@
  */
 
 import Swiper from './Swiper'
+import EntityManager from './EntityManager'
 
 export {
-  Swiper
+  Swiper,
+  EntityManager
 }

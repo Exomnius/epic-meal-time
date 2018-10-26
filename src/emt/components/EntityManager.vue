@@ -13,39 +13,61 @@
 
 <template>
   <div :style="theme.container">
-    <h2 :style="theme.header">Swiper</h2>
-    <div v-for="entity in entities">
-      {{entity.description}}
+    <h2 :style="theme.header">Entity Manager</h2>
+    <div class="actionRow">
+      <input
+        class="input"
+        v-model="id"
+      />
+      <button class="action" v-on:click="getById()">search</button>
     </div>
-
-
+    <div class="form">
+      <div class="inputRow" v-for="field in fields" v-bind:key="field.name">
+        <div v-if="field.type === 'string'">
+          <label class="inputLabel">{{field.label || field.name}}</label>
+          <input
+            class="input"
+            v-model="entity[field.name]"
+          />
+        </div>
+        <div class="lineBreak" v-if="field.type === 'lineBreak'"></div>
+      </div>
+      <div class="actionRow">
+        <button class="action" v-on:click="create()">Save</button>
+      </div>
+      <div class="actionRow">
+        <button class="action" v-on:click="getById()">get</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  import Vue from 'vue'
-  import {Logger} from 'aws-amplify'
-  import {JS} from 'fsts'
   import EmtTheme from "../EmtTheme";
 
   import AmplifyStore from '../../store/store'
 
-  import {GetRandomEntity} from './persist/graphqlActions';
-
+  import {GetEntityById} from './persist/graphqlActions';
+  import {CreateEntity} from './persist/graphqlActions';
 
   export default {
-    name: 'Swiper',
+    name: 'EntityManager',
     data() {
       return {
         theme: EmtTheme || {},
-        entities: '',
+        id: '',
+        entity: {},
         actions: {
-          get: GetRandomEntity
+          get: GetEntityById,
+          create: CreateEntity
         },
+        fields: [
+          { type: 'string', name: 'id', label: 'Id' },
+          { type: 'string', name: 'description', label: 'Description' }
+        ]
       }
     },
     created() {
-      this.getRandom();
     },
     computed: {
       userId: function () {
@@ -53,14 +75,15 @@
       }
     },
     methods: {
-      getRandom() {
-        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.get, {}))
+      getById() {
+        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.get, {id:this.id}))
           .then((res) => {
-            this.entities = res.data.listEntitys.items;
-          })
-          .catch((e) => {
-
+            console.log(res.data)
           });
+      },
+      create(){
+        const description = this.entity.description;
+        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.create, {description}))
       }
     }
   }
