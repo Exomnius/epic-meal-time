@@ -11,11 +11,11 @@ const GetRandomEntity = `query {
 const GetUserEntitiesByUserId = `query GetUserEntitiesByUserId($userId: String) {
   listUserEntitys(filter: {userId: {eq: $userId}}) {
     items {
+      id
       entityId
     }
   }
 }`;
-
 
 const GetAllEntities = `query {
   listEntitys {
@@ -50,11 +50,19 @@ const CreateUserEntity = `mutation createUserEntity($entityId: String!, $userId:
   }
 }`;
 
+const DeleteUserEntity = `mutation DeleteUserEntity($id: ID!) {
+  deleteUserEntity(input: {id: $id}) {
+    id
+  }
+}
+`;
+
 export {
   GetUserEntitiesByUserId,
   GetAllEntities,
   GetRandomEntity,
   GetEntityById,
   CreateEntity,
-  CreateUserEntity
+  CreateUserEntity,
+  DeleteUserEntity
 }

@@ -17,6 +17,7 @@
       <a class="item" v-on:click="home">Home</a>
       <a class="item" v-on:click="notes">Notes</a>
       <a class="item" v-on:click="emt">EMT</a>
+      <a class="item" v-on:click="history">History</a>
       <a class="item" v-on:click="entitymanager">Entity Manager</a>
     </div>
     <div class="right">
@@ -37,7 +38,7 @@ export default {
     return {}
   },
   computed: {
-    user() { 
+    user() {
       return AmplifyStore.state.user
     }
   },
@@ -50,6 +51,9 @@ export default {
     },
     emt: function() {
         this.$router.push('/emt')
+    },
+    history: function() {
+      this.$router.push('/history')
     },
     entitymanager: function() {
       this.$router.push('/entity-manager')

@@ -1,6 +1,6 @@
 <template>
-  <div :style="theme.container">
-    <entity-card v-if="nextRandomEntity" image="http://placekitten.com/400/400" :description="nextRandomEntity.description" />
+  <div :style="theme.container" v-if="nextRandomEntity">
+    <entity-card image="http://placekitten.com/400/400" :description="nextRandomEntity.description" />
 
     <div :style="theme.buttons">
       <button v-on:click="accept" :style="theme.button.accept">
@@ -38,7 +38,7 @@
       }
     },
     created() {
-      this.getRandom("foo");
+      this.getRandom();
     },
     computed: {
       userId: function () {
@@ -46,10 +46,10 @@
       }
     },
     methods: {
-      getRandom(userId) {
+      getRandom() {
         let responded, all;
 
-        const alreadyResponded = this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.getAlreadyResponded, {userId}))
+        const alreadyResponded = this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.getAlreadyResponded, {userId: this.userId}))
           .then((res) => {
             console.log("alreadyResponded", res);
             responded = res.data.listUserEntitys.items.map(e => e.entityId);
@@ -76,19 +76,22 @@
           });
       },
       accept() {
-        console.log(AmplifyStore)
         this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.createUserEntity, {
           entityId: this.nextRandomEntity.id,
           userId: this.userId,
           result: true
-        }))
+        })).then(() => {
+          this.getRandom();
+        })
       },
       decline() {
         this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.createUserEntity, {
           entityId: this.nextRandomEntity.id,
           userId: this.userId,
           result: false
-        }))
+        })).then(() => {
+          this.getRandom();
+        })
       }
     }
   };

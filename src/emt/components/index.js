@@ -13,10 +13,12 @@
 
 import Swiper from './Swiper'
 import EntityManager from './EntityManager'
+import History from './History'
 import EntityCard from './EntityCard'
 
 export {
   Swiper,
   EntityCard,
+  History,
   EntityManager
 }
