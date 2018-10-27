@@ -42,7 +42,7 @@ const CreateEntity =
   }
 }`;
 
-const CreateUserEntity = `mutation createUserEntity($entityId!, $userId!, $result: Boolean!) {
+const CreateUserEntity = `mutation createUserEntity($entityId: String!, $userId: String!, $result: Boolean!) {
   createUserEntity(input: {entityId: $entityId, userId: $userId, result: $result}) {
     entityId
     userId,

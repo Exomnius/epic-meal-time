@@ -1,6 +1,6 @@
 <template>
   <div :style="theme.container">
-    <entity-card image="http://placekitten.com/400/400" :description="entity.description" />
+    <entity-card v-if="nextRandomEntity" image="http://placekitten.com/400/400" :description="nextRandomEntity.description" />
 
     <div :style="theme.buttons">
       <button v-on:click="accept" :style="theme.button.accept">
@@ -17,16 +17,9 @@
 <script>
   import Vue from 'vue';
   import EmtTheme from '../EmtTheme';
-  import {GetRandomEntity} from './persist/graphqlActions';
-  import EntityCard from './EntityCard';
-  import Vue from 'vue'
-  import {Logger} from 'aws-amplify'
-  import {JS} from 'fsts'
-  import EmtTheme from "../EmtTheme";
   import EntityCard from './EntityCard';
   import AmplifyStore from '../../store/store'
-
-  import {GetRandomEntity, GetUserEntitiesByUserId, GetAllEntities} from './persist/graphqlActions';
+  import {GetRandomEntity, GetUserEntitiesByUserId, GetAllEntities, CreateUserEntity} from './persist/graphqlActions';
 
   Vue.component('entity-card', EntityCard)
 
@@ -40,7 +33,7 @@
           get: GetRandomEntity,
           getAlreadyResponded: GetUserEntitiesByUserId,
           getAllEntities: GetAllEntities,
-          createResult: CreateEntityUserResult
+          createUserEntity: CreateUserEntity
         },
       }
     },
@@ -49,7 +42,7 @@
     },
     computed: {
       userId: function () {
-        return AmplifyStore.state.userId
+        return AmplifyStore.state.user.username
       }
     },
     methods: {
@@ -83,15 +76,16 @@
           });
       },
       accept() {
-        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.createResult, {
-          entityId: this.entity.id,
+        console.log(AmplifyStore)
+        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.createUserEntity, {
+          entityId: this.nextRandomEntity.id,
           userId: this.userId,
           result: true
         }))
       },
       decline() {
-        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.createResult, {
-          entityId: this.entity.id,
+        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.createUserEntity, {
+          entityId: this.nextRandomEntity.id,
           userId: this.userId,
           result: false
         }))

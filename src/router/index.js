@@ -50,7 +50,7 @@ function getUser() {
     if (data && data.signInUserSession) {
       AmplifyStore.commit('setUser', data);
       return data;
-    } 
+    }
   }).catch((e) => {
     AmplifyStore.commit('setUser', null);
     return null
