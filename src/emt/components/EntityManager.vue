@@ -36,11 +36,13 @@
             <input
               class="input"
               v-model="entity[field.name]"
+              v-bind:disabled="field.disabled"
             />
           </div>
           <div class="lineBreak" v-if="field.type === 'lineBreak'"></div>
         </div>
         <div class="actionRow">
+          <button class="action" v-on:click="reset()">Reset</button>
           <button class="action" v-on:click="create()">Save</button>
         </div>
       </div>
@@ -67,8 +69,8 @@
           create: CreateEntity
         },
         fields: [
-          {type: 'string', name: 'id', label: 'Id'},
-          {type: 'string', name: 'description', label: 'Description'}
+          {type: 'string', name: 'id', label: 'Id', disabled: true},
+          {type: 'string', name: 'description', label: 'Description', disabled: false}
         ]
       }
     },
@@ -76,27 +78,28 @@
     },
     computed: {
       userId: function () {
-        return AmplifyStore.state.userId
+        return AmplifyStore.state.userId;
       }
     },
     methods: {
       getById() {
         this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.get, {id: this.id}))
           .then((res) => {
-            console.log(res.data.getEntity.id)
-            this.entity = res.data.getEntity
+            this.entity = res.data.getEntity;
           })
           .catch(e => console.log(e));
       },
       create() {
         const description = this.entity.description;
         this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.create, {description}))
-          .then()
+          .then((res) => {
+            this.entity = res.data.getEntity;
+          })
           .catch(e => console.log(e));
+      },
+      reset() {
+        this.entity = null;
       }
-    },
-    refreshFields() {
-
     }
   }
 </script>
