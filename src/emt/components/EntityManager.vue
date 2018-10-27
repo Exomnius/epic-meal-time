@@ -14,29 +14,37 @@
 <template>
   <div :style="theme.container">
     <h2 :style="theme.header">Entity Manager</h2>
-    <div class="actionRow">
-      <input
-        class="input"
-        v-model="id"
-      />
-      <button class="action" v-on:click="getById()">search</button>
-    </div>
-    <div class="form">
-      <div class="inputRow" v-for="field in fields" v-bind:key="field.name">
-        <div v-if="field.type === 'string'">
-          <label class="inputLabel">{{field.label || field.name}}</label>
+    <div>
+      <div class="form">
+        <div class="inputRow">
+          <label class="inputLabel">Search id:</label>
           <input
             class="input"
-            v-model="entity[field.name]"
+            v-model="id"
           />
         </div>
-        <div class="lineBreak" v-if="field.type === 'lineBreak'"></div>
+        <div class="actionRow">
+          <button class="action" v-on:click="getById()">search</button>
+        </div>
       </div>
-      <div class="actionRow">
-        <button class="action" v-on:click="create()">Save</button>
-      </div>
-      <div class="actionRow">
-        <button class="action" v-on:click="getById()">get</button>
+    </div>
+    <div>
+      <div class="form">
+        <div class="inputRow" v-for="field in fields" v-bind:key="field.name">
+          <div v-if="field.type === 'string'">
+            <label class="inputLabel">{{field.label || field.name}}</label>
+            <input
+              class="input"
+              v-model="entity[field.name]"
+              v-bind:disabled="field.disabled"
+            />
+          </div>
+          <div class="lineBreak" v-if="field.type === 'lineBreak'"></div>
+        </div>
+        <div class="actionRow">
+          <button class="action" v-on:click="reset()">Reset</button>
+          <button class="action" v-on:click="create()">Save</button>
+        </div>
       </div>
     </div>
   </div>
@@ -47,8 +55,7 @@
 
   import AmplifyStore from '../../store/store'
 
-  import {GetEntityById} from './persist/graphqlActions';
-  import {CreateEntity} from './persist/graphqlActions';
+  import {CreateEntity, GetEntityById} from './persist/graphqlActions';
 
   export default {
     name: 'EntityManager',
@@ -62,8 +69,8 @@
           create: CreateEntity
         },
         fields: [
-          { type: 'string', name: 'id', label: 'Id' },
-          { type: 'string', name: 'description', label: 'Description' }
+          {type: 'string', name: 'id', label: 'Id', disabled: true},
+          {type: 'string', name: 'description', label: 'Description', disabled: false}
         ]
       }
     },
@@ -71,19 +78,27 @@
     },
     computed: {
       userId: function () {
-        return AmplifyStore.state.userId
+        return AmplifyStore.state.userId;
       }
     },
     methods: {
       getById() {
-        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.get, {id:this.id}))
+        this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.get, {id: this.id}))
           .then((res) => {
-            console.log(res.data)
-          });
+            this.entity = res.data.getEntity;
+          })
+          .catch(e => console.log(e));
       },
-      create(){
+      create() {
         const description = this.entity.description;
         this.$Amplify.API.graphql(this.$Amplify.graphqlOperation(this.actions.create, {description}))
+          .then((res) => {
+            this.entity = res.data.getEntity;
+          })
+          .catch(e => console.log(e));
+      },
+      reset() {
+        this.entity = null;
       }
     }
   }
